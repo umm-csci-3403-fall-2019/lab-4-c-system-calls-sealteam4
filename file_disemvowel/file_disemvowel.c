@@ -2,7 +2,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdio.h>
-#include "disemvowel.h"
+
 
 char *disemvowel(char *str) {
     int i;
@@ -35,4 +35,33 @@ char *disemvowel(char *str) {
 	}
     }
   return newstr;
+}
+
+int main(int argc, char *argv[]) {
+  if(argc >= 2) {
+    freopen(argv[1], "r", stdin);
+    if(!stdin) {
+      exit(EXIT_FAILURE);
+    }
+  }
+  else if (argc == 3) {
+    freopen(argv[2], "w", stdout);
+  }
+  char* str;
+  int notDone = 1;
+  char* buffer = calloc(1000, sizeof(char));
+  int str_length = 0;
+  while(notDone) {
+     str = disemvowel(fgets(buffer, 1000, stdin));
+     str_length = strlen(str);
+     fwrite((void*)str, sizeof(char), str_length, stdout);
+     fflush(stdout);
+     if(feof(stdin)) {
+       notDone = 0;
+     }
+     free(str);
+   }
+
+  fclose(stdout);
+  fclose(stdin);
 }

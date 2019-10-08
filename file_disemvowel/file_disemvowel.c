@@ -5,9 +5,15 @@
 
 
 char *disemvowel(char *str) {
+    //if we are given a null pointer, operate on an empty string
+	if (str == 0x0){
+
+    }
+
     int i;
     int numVowel = 0;
-    for (i=0; i<strlen(str); i++){
+    int length = strlen(str);
+    for (i=0; i<length; i++){
         switch(tolower(str[i])){
 	    case 'a':
             case 'e':
@@ -18,9 +24,9 @@ char *disemvowel(char *str) {
 		break;
 	}
     }
-    char *newstr = (char*) calloc(strlen(str) - numVowel + 1, sizeof(char));
+    char *newstr = (char*) calloc(length - numVowel + 1, sizeof(char));
     int j=0;
-    for (i=0; i<strlen(str); i++){
+    for (i=0; i<length; i++){
         switch(tolower(str[i])){
             case 'a':
             case 'e':
@@ -45,22 +51,31 @@ int main(int argc, char *argv[]) {
     }
   }
   else if (argc == 3) {
+    printf("Output to:");
     freopen(argv[2], "w", stdout);
   }
+
   char* str;
+  char* input;
   int notDone = 1;
   char* buffer = calloc(1000, sizeof(char));
   int str_length = 0;
   while(notDone) {
-     str = disemvowel(fgets(buffer, 1000, stdin));
+     input = fgets(buffer,1000,stdin);
+     str = disemvowel(input);
      str_length = strlen(str);
      fwrite((void*)str, sizeof(char), str_length, stdout);
      fflush(stdout);
      if(feof(stdin)) {
        notDone = 0;
      }
+     if(ferror(stdin)){
+     	notDone = 0;
+     }
+     free(input);
      free(str);
    }
+  
 
   fclose(stdout);
   fclose(stdin);

@@ -78,10 +78,10 @@ int main(int argc, char *argv[]) {
      if(ferror(stdin)){
      	notDone = 0;
      }
-     free(input);
      free(str);
    }
-  
+   free(buffer);
+
 
   fclose(stdout);
   fclose(stdin);
